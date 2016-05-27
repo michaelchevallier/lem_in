@@ -6,7 +6,7 @@
 #    By: mchevall <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/26 14:43:40 by mchevall          #+#    #+#              #
-#    Updated: 2016/05/19 15:12:06 by mchevall         ###   ########.fr        #
+#    Updated: 2016/05/25 15:50:23 by mchevall         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ SRC = ft_error.c\
 	  only_digit.c\
 	  removejunk.c\
 	  list_management.c\
+	  matrix_initialiser.c\
+	  solve.c\
+	  index_initialiser.c\
 	  main.c
 OBJ = 
 SRCO = $(SRC:.c=.o)

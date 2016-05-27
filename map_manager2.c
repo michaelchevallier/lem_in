@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 11:22:30 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/20 16:21:49 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/05/26 14:58:20 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,30 @@ int			check_tube_validity(t_map **map, t_path **antpit)
 int			matrix_manager(t_map **map, int i, t_path **antpit)
 {
 	t_room		*tmp;
-	int			k;
+	int			found;
+	static int	trigger = 0;
 
-	k = 0;
+	found = 0;
+	trigger++;
 	tmp = (*antpit)->start;
+	(trigger == 1 ? matrix_initialiser(map, antpit) : 0);
 	while (tmp)
 	{
-		if (ft_strcmp((*map)->tab[0], tmp->name) == 0)
+		if (ft_strcmp((*map)->tab[0], tmp->name) == 0 ||
+				ft_strcmp((*map)->tab[1],  tmp->name) == 0)
 		{
-			(*antpit)->matrix[(*antpit)->start->id][tmp->id] = 1;
-			(*antpit)->matrix[tmp->id][(*antpit)->start->id] = 1;
+			found++;
+			(found == 1) ? ((*map)->id1 = tmp->id) : ((*map)->id2 = tmp->id);
 		}
 		tmp = tmp->next;
-		k++;
 	}
+	if (found == 2)
+		{
+			if ((*map)->id1 > (*antpit)->totalrooms - 1 || (*map)->id2 > (*antpit)->totalrooms - 1)
+				ft_error("more room than size of matrix");
+			(*antpit)->matrix[(*map)->id1][(*map)->id2] = 1;
+			(*antpit)->matrix[(*map)->id2][(*map)->id1] = 1;
+		}
 	return (0);
 }
 
@@ -127,16 +137,30 @@ int			istube(t_map **map, int i, t_path **antpit)
 	(*map)->tab = ft_strsplit((*map)->cleanfile[i], '-');
 	if (check_tube_validity(map, antpit) == 0)
 	{
-		ft_printf("#############YOLO############\n%s\n", (*map)->tab[0]);
 		return (0);
 	}
 	matrix_manager(map, i, antpit);
-
 	return (1);
 }
 
 int			iscommand(t_map **map, int i, t_path **antpit)
 {
-	(*map)->c_index = i;
-	return (0);
+	if (ft_strcmp((*map)->cleanfile[i], "##start") == 0)
+	{
+		if ((*map)->boolend == 1 || (*map)->start == 1)
+			(*map)->error = 1;
+		(*map)->start++;
+		(*map)->boolstart = 1;
+		return (1);
+	}
+	else if (ft_strcmp((*map)->cleanfile[i], "##end") == 0)
+	{
+		if ((*map)->boolstart == 1 || (*map)->end == 1)
+			(*map)->error = 1;
+		(*map)->end++;
+		(*map)->boolend = 1;
+		return (1);
+	}
+	else
+		return (0);
 }

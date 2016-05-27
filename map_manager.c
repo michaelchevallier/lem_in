@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/12 16:55:44 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/20 14:21:20 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/05/26 14:56:35 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ static void		check_ants(t_map **map, int i, int j)
 	}
 }
 
+void			matrix_duplicator(t_path **antpit)
+{
+	int			i;
+	int			j;
+
+	i = 0;
+	j = 0;
+	while ((*antpit)->matrix[i] != NULL)
+	{
+		while ((*antpit)->matrix[i][j] != -1)
+			{
+				(*antpit)->matrix_dup[i][j] = (*antpit)->matrix[i][j];
+				j++;
+			}
+		j = 0;
+		i++;
+	}
+}
 void			map_manager(t_map **map, t_path **antpit)
 {
 	int			i;
@@ -55,18 +73,17 @@ void			map_manager(t_map **map, t_path **antpit)
 	i = (*map)->antindex + 1;
 	while ((*map)->error != 1 && (*map)->cleanfile[i] != NULL)
 	{
-		ft_printf("\n\n[%d]%s\n", i,(*map)->cleanfile[i]);
-		if ((j = isroom(map, i, antpit)) == 0 && (j = istube(map, i, antpit)) == 0)
+		if ((isroom(map, i, antpit)) == 0 && (istube(map, i, antpit)) == 0)
 		{
-			if (iscommand(map, i, antpit) > 0)
-			{
-				i++;
-			}
-			else
-			{
+			if (iscommand(map, i, antpit) <= 0)
 				(*map)->error = 1;
-			}
 		}
 		i++;
 	}
+	if ((*map)->start < 1 || (*map)->end < 1)
+		ft_error("there must be at least one start and an end");
+	print_matrix(antpit);
+	max_paths(antpit);
+	ft_printf("YOLO\n");
+	matrix_duplicator(antpit);
 }

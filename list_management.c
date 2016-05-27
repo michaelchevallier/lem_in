@@ -6,32 +6,23 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 14:42:26 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/20 16:09:48 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/05/25 16:11:50 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		path_initialiser(t_path **list, int i)
+void		path_initialiser(t_path **list)
 {
-	int		j;
-
-	j = 0;
 	*list = (t_path *)ft_memalloc(sizeof(t_path));
 	if (*list)
 	{
 		(*list)->start = NULL;
 		(*list)->end = NULL;
-		(*list)->matrix = (int **)ft_memalloc(sizeof(int *) * i) + 1;
-		(*list)->matrix[i] = NULL;
-		while (j < i)
-		{
-			(*list)->matrix[j] = (int *)ft_memalloc(sizeof(int) * i + 1);
-			(*list)->matrix[j][i] = -1;
-			j++;
-		}
 		(*list)->length = 0;
 		(*list)->totalrooms = 0;
+		(*list)->maxpaths = 0;
+		(*list)->path_found = 0;
 	}
 }
 
@@ -53,9 +44,15 @@ void		room_maker(t_room **room, t_map **map)
 		(*room)->busy = 0;
 		(*room)->c_path = 0;
 		if ((*map)->boolstart == 1)
+		{
 			(*room)->id = 0;
+			(*map)->boolstart = 0;
+		}
 		else if ((*map)->boolend == 1)
+		{
 			(*room)->id = 1;
+			(*map)->boolend = 0;
+		}
 		else
 			(*room)->id = id;
 	}
