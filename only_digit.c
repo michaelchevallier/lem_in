@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 13:53:49 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/19 14:31:15 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/02 16:27:23 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 int				only_digit(char *file)
 {
 	int			i;
-	static int k;
-
-	k++;
 
 	i = 0;
 	if (file[i] == '+')
-			i++;
+		i++;
 	while (file[i])
 	{
 		if (ft_isdigit(file[i]) == 0)

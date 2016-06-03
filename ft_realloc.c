@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/12 13:34:16 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/18 13:22:29 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/05/31 16:09:23 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	**ft_realloc(char **tab)
 	while (i <= (j * 1024 - 1))
 	{
 		realloced[i] = ft_strdup(tab[i]);
-		ft_printf("i:%d\n",i);
 		free(tab[i]);
 		i++;
 	}

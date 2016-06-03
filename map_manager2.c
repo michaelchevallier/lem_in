@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 11:22:30 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/26 14:58:20 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/01 18:58:16 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			check_room_validity(t_map **map, t_path **antpit)
 
 	tmp = (*antpit)->start;
 	if ((*map)->tube != 0)
-		return(0);
+		return (0);
 	else
 	{
 		while (tmp)
@@ -27,7 +27,7 @@ int			check_room_validity(t_map **map, t_path **antpit)
 				ft_error("same name for two rooms");
 			if (ft_atoi((*map)->tab[1]) == tmp->coordx &&
 					ft_atoi((*map)->tab[2]) == tmp->coordy)
-			ft_error("same coordinates for two rooms");
+				ft_error("same coordinates for two rooms");
 			tmp = tmp->next;
 		}
 	}
@@ -41,6 +41,8 @@ int			check_tube_validity(t_map **map, t_path **antpit)
 
 	check = 0;
 	tmp = (*antpit)->start;
+	if (ft_strcmp((*map)->tab[0], (*map)->tab[1]) == 0)
+		return (0);
 	while (tmp)
 	{
 		if (ft_strcmp((*map)->tab[0], tmp->name) == 0)
@@ -51,44 +53,13 @@ int			check_tube_validity(t_map **map, t_path **antpit)
 	}
 	if (check != 2)
 		return (0);
-	return(1);
-	}
-
-int			matrix_manager(t_map **map, int i, t_path **antpit)
-{
-	t_room		*tmp;
-	int			found;
-	static int	trigger = 0;
-
-	found = 0;
-	trigger++;
-	tmp = (*antpit)->start;
-	(trigger == 1 ? matrix_initialiser(map, antpit) : 0);
-	while (tmp)
-	{
-		if (ft_strcmp((*map)->tab[0], tmp->name) == 0 ||
-				ft_strcmp((*map)->tab[1],  tmp->name) == 0)
-		{
-			found++;
-			(found == 1) ? ((*map)->id1 = tmp->id) : ((*map)->id2 = tmp->id);
-		}
-		tmp = tmp->next;
-	}
-	if (found == 2)
-		{
-			if ((*map)->id1 > (*antpit)->totalrooms - 1 || (*map)->id2 > (*antpit)->totalrooms - 1)
-				ft_error("more room than size of matrix");
-			(*antpit)->matrix[(*map)->id1][(*map)->id2] = 1;
-			(*antpit)->matrix[(*map)->id2][(*map)->id1] = 1;
-		}
-	return (0);
+	return (1);
 }
 
 int			isroom(t_map **map, int i, t_path **antpit)
 {
 	int			j;
 	int			countspaces;
-	static int	k = 1;
 
 	j = 0;
 	countspaces = 0;
@@ -105,16 +76,10 @@ int			isroom(t_map **map, int i, t_path **antpit)
 		return (0);
 	(*map)->tab = ft_strsplit((*map)->cleanfile[i], ' ');
 	if (only_digit((*map)->tab[1]) == 0 || only_digit((*map)->tab[2]) == 0)
-	{
 		return (0);
-	}
-	else
-	{
-		if (check_room_validity(map, antpit) == 0)
-			return (0);
-		list_maker(map, antpit);
-		k++;
-	}
+	if (check_room_validity(map, antpit) == 0)
+		return (0);
+	list_maker(map, antpit);
 	return (i);
 }
 
@@ -125,7 +90,7 @@ int			istube(t_map **map, int i, t_path **antpit)
 
 	j = 0;
 	hyphen = 0;
-	while ((*map)->cleanfile[i][j] !='\0')
+	while ((*map)->cleanfile[i][j] != '\0')
 	{
 		if ((*map)->cleanfile[i][j] == '-')
 			hyphen++;
@@ -136,10 +101,9 @@ int			istube(t_map **map, int i, t_path **antpit)
 		return (0);
 	(*map)->tab = ft_strsplit((*map)->cleanfile[i], '-');
 	if (check_tube_validity(map, antpit) == 0)
-	{
 		return (0);
-	}
 	matrix_manager(map, i, antpit);
+	(*antpit)->nb_tubes++;
 	return (1);
 }
 

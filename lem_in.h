@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:37:14 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/27 15:29:39 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/03 13:17:17 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct		s_map
 	int				end;
 	int				boolend;
 	int				error;
-	int				nb_ants;
+	intmax_t		nb_ants;
 	int				c_index;
 	int				**map;
 	int				antindex;
@@ -34,14 +34,27 @@ typedef struct		s_map
 	int				id2;
 }					t_map;
 
+typedef struct		s_ants
+{
+	struct s_ants	*start;
+	struct s_ants	*end;
+	struct s_ants	*next;
+	struct s_ants	*prev;
+	int				a_id;
+	int				r_id;
+	int				total_ants;
+
+}					t_ants;
+
 typedef struct		s_room
 {
 	struct s_room	*next;
 	struct s_room	*prev;
+	struct s_ants	*ants;
 	char			*name;
 	int				coordx;
 	int				coordy;
-	int				busy;
+	int				nb_ants;
 	int				c_path;
 	int				isstart;
 	int				isend;
@@ -54,12 +67,16 @@ typedef struct		s_path
 	t_room			*end;
 	int				path_found;
 	int				maxpaths;
+	int				maxpaths_tmp;
+	int				nb_paths;
 	int				**allpaths;
 	int				**paths;
+	int				*paths_l;
 	int				**matrix;
 	int				**matrix_dup;
 	int				length;
 	int				totalrooms;
+	int				nb_tubes;
 }					t_path;
 
 typedef struct		s_index
@@ -84,12 +101,21 @@ void				room_maker(t_room **room, t_map **map);
 void				room_add(t_path **list, t_room *new_room);
 void				list_maker(t_map **map, t_path **start);
 void				matrix_initialiser(t_map **map, t_path **antpit);
-void				print_matrix(t_path **antpit);
-void				solve(t_map **map, t_path **antpit);
-int					find_paths(t_map **map, t_path **antpit, t_index **i, int depth);
+void				paths_finder(t_map **map, t_path **antpit);
+int					find_paths(t_map **map, t_path **antpit, t_index **i,
+		int depth);
 void				max_paths(t_path **antpit);
 void				index_initialiser(t_index **i);
 void				matrix_recopier(t_path **antpit);
 void				matrix_duplicator(t_path **antpit);
-void				path_copy(t_path **antpit, int j);
+int					path_copy(t_path **antpit, int j);
+void				matrix_partial_recopier(t_path **antpit, t_index **i);
+void				matrix_manager(t_map **map, int i, t_path **antpit);
+void				erase_path(t_path **antpit, t_index **i);
+void				ants_maker(t_ants **list, t_map **map);
+void				solve(t_ants **ants, t_map **map, t_path **antpit);
+void				ant_mover(t_path **antpit, t_room **end, t_room **start,
+		t_ants **ants);
+int					ant_sender(t_path **antpit, t_ants **ants, int i,
+		t_room **tmp);
 #endif

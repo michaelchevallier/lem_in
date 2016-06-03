@@ -6,7 +6,7 @@
 #    By: mchevall <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/26 14:43:40 by mchevall          #+#    #+#              #
-#    Updated: 2016/05/25 15:50:23 by mchevall         ###   ########.fr        #
+#    Updated: 2016/06/03 13:17:06 by mchevall         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,14 @@ SRC = ft_error.c\
 	  removejunk.c\
 	  list_management.c\
 	  matrix_initialiser.c\
-	  solve.c\
+	  matrix_manager.c\
 	  index_initialiser.c\
+	  find_paths.c\
+	  paths_finder.c\
+	  paths_finder_aux.c\
+	  ants_maker.c\
+	  ant_mover.c\
+	  solve.c\
 	  main.c
 OBJ = 
 SRCO = $(SRC:.c=.o)

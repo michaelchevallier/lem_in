@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 11:20:29 by mchevall          #+#    #+#             */
-/*   Updated: 2016/05/26 14:18:44 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/05/31 14:00:11 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void			remove_junk(t_map **map, int i)
 	{
 		if ((*map)->file[i][0] == '#')
 		{
-			if (ft_strcmp((*map)->file[i], "##start") != 0 &&
-					ft_strcmp((*map)->file[i], "##end") != 0)
+			while (ft_strcmp((*map)->file[i], "##start") != 0 &&
+					ft_strcmp((*map)->file[i], "##end") != 0 &&
+					((*map)->file[i][0] == '#'))
 				i++;
 		}
 		(*map)->cleanfile[j] = ft_strdup((*map)->file[i]);
