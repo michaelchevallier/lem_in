@@ -113,6 +113,8 @@ void			paths_finder(t_map **map, t_path **antpit)
 			(*antpit)->maxpaths_tmp--;
 		}
 		matrix_recopier(antpit);
+		if ((*antpit)->path_found > 0 && depth > (*map)->nb_ants)
+			depth = (*antpit)->totalrooms + 1;
 	}
 	(j == 0 && (*antpit)->path_found == 0) ? (ft_error("No path found")) : 0;
 }

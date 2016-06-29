@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:37:14 by mchevall          #+#    #+#             */
-/*   Updated: 2016/06/03 13:17:17 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/28 17:42:34 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,25 @@
 # define LEM_IN_H
 # include "ft_printf/ft_printf.h"
 
+typedef struct		s_room
+{
+	struct s_room	*next;
+	struct s_room	*prev;
+	struct s_ants	*ants;
+	char			*name;
+	int				coordx;
+	int				coordy;
+	int				nb_ants;
+	int				c_path;
+	int				isstart;
+	int				isend;
+	int				id;
+}					t_room;
+
 typedef struct		s_map
 {
+	t_room			*m_start;
+	t_room			*m_end;
 	char			*line;
 	char			**file;
 	char			**cleanfile;
@@ -45,21 +62,6 @@ typedef struct		s_ants
 	int				total_ants;
 
 }					t_ants;
-
-typedef struct		s_room
-{
-	struct s_room	*next;
-	struct s_room	*prev;
-	struct s_ants	*ants;
-	char			*name;
-	int				coordx;
-	int				coordy;
-	int				nb_ants;
-	int				c_path;
-	int				isstart;
-	int				isend;
-	int				id;
-}					t_room;
 
 typedef struct		s_path
 {
@@ -114,8 +116,7 @@ void				matrix_manager(t_map **map, int i, t_path **antpit);
 void				erase_path(t_path **antpit, t_index **i);
 void				ants_maker(t_ants **list, t_map **map);
 void				solve(t_ants **ants, t_map **map, t_path **antpit);
-void				ant_mover(t_path **antpit, t_room **end, t_room **start,
-		t_ants **ants);
+void				ant_mover(t_path **antpit, t_map **map, t_ants **ants);
 int					ant_sender(t_path **antpit, t_ants **ants, int i,
 		t_room **tmp);
 #endif

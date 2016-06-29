@@ -30,30 +30,25 @@ void	paths_len(t_path **antpit)
 	}
 }
 
-void	start_finder(t_path **antpit, t_room **start)
+void	start_finder(t_path **antpit, t_map **map)
 {
-	*start = (*antpit)->end;
-	while ((*start)->isstart != 1)
-		*start = (*start)->prev;
+	(*map)->m_start = (*antpit)->end;
+	while ((*map)->m_start->isstart != 1)
+		(*map)->m_start = (*map)->m_start->prev;
 }
 
-void	end_finder(t_path **antpit, t_room **end)
+void	end_finder(t_path **antpit, t_map **map)
 {
-	*end = (*antpit)->end;
-	while ((*end)->isend != 1)
-		*end = (*end)->prev;
+	(*map)->m_end = (*antpit)->end;
+	while ((*map)->m_end->isend != 1)
+		(*map)->m_end = (*map)->m_end->prev;
 }
 
 int		ant_sender(t_path **antpit, t_ants **ants, int i, t_room **tmp)
 {
-	t_room		*start;
-	t_room		*end;
-
-	ft_printf("");
-	start_finder(antpit, &start);
-	end_finder(antpit, &start);
 	if (((*ants)->total_ants - ((*ants)->total_ants /
-		(*antpit)->paths_l[i])) >= (*antpit)->paths_l[i] || i == 0)
+		(*antpit)->paths_l[i])) >= (*antpit)->paths_l[i] ||
+		(i == 0 && (*tmp)->ants == NULL))
 	{
 		(*tmp)->ants = (*ants)->start;
 		(*ants)->start = (*ants)->start->next;
@@ -62,27 +57,20 @@ int		ant_sender(t_path **antpit, t_ants **ants, int i, t_room **tmp)
 					(*tmp)->ants->a_id, (*tmp)->name);
 		(*ants)->total_ants--;
 	}
-	if ((*ants)->total_ants == 0)
-	{
-		(*antpit)->start->ants = NULL;
-		return (0);
-	}
 	return (1);
 }
 
 void	solve(t_ants **ants, t_map **map, t_path **antpit)
 {
-	t_room		*start;
-	t_room		*end;
 	int			i;
 
 	i = 1;
 	ants_maker(ants, map);
 	paths_len(antpit);
-	start_finder(antpit, &start);
-	end_finder(antpit, &end);
-	start->nb_ants = (*map)->nb_ants;
-	start->ants = (*ants);
+	start_finder(antpit, map);
+	end_finder(antpit, map);
+	(*map)->m_start->nb_ants = (*map)->nb_ants;
+	(*map)->m_start->ants = (*ants);
 	if ((*antpit)->nb_paths == 1 && (*antpit)->paths_l[0] == 1)
 	{
 		while (i <= (*map)->nb_ants)
@@ -94,7 +82,7 @@ void	solve(t_ants **ants, t_map **map, t_path **antpit)
 	}
 	else
 	{
-		while (end->nb_ants < (*map)->nb_ants - 1)
-			ant_mover(antpit, &end, &start, ants);
+		while ((*map)->m_end->nb_ants < (*map)->nb_ants)
+			ant_mover(antpit, map, ants);
 	}
 }

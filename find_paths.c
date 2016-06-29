@@ -14,7 +14,6 @@
 
 int		path_found(t_path **antpit, t_index **i, int j)
 {
-	ft_printf("hello");
 	matrix_duplicator(antpit);
 	(*antpit)->allpaths[(*i)->k][(*i)->l + 1] = 1;
 	(*antpit)->path_found = (*i)->k + 1;
@@ -32,6 +31,7 @@ void	room_found(t_path **antpit, t_index **i, t_map **map, int depth)
 	(*antpit)->matrix[(*i)->i][(*i)->j] = 0;
 	(*antpit)->matrix[(*i)->j][(*i)->i] = 0;
 	(*i)->i = (*i)->j;
+	(*i)->j = 0;
 	find_paths(map, antpit, i, depth);
 	(*i)->k++;
 }
