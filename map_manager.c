@@ -71,10 +71,8 @@ void			error_manager(t_map **map, t_path **antpit)
 void			map_manager(t_map **map, t_path **antpit)
 {
 	int			i;
-	int			j;
 
 	i = 0;
-	j = 0;
 	while ((*map)->cleanfile[i] != NULL)
 	{
 		if ((*map)->nb_ants == 0)

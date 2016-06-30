@@ -75,6 +75,8 @@ int			isroom(t_map **map, int i, t_path **antpit)
 	if (countspaces != 2)
 		return (0);
 	(*map)->tab = ft_strsplit((*map)->cleanfile[i], ' ');
+	if (!(*map)->tab[2] || !(*map)->tab[1])
+		return (0);
 	if (only_digit((*map)->tab[1]) == 0 || only_digit((*map)->tab[2]) == 0)
 		return (0);
 	if (check_room_validity(map, antpit) == 0)

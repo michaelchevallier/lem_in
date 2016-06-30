@@ -6,7 +6,7 @@
 #    By: mchevall <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/26 14:43:40 by mchevall          #+#    #+#              #
-#    Updated: 2016/06/28 17:42:37 by mchevall         ###   ########.fr        #
+#    Updated: 2016/06/30 14:34:50 by mchevall         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC = ft_error.c\
 	  ants_maker.c\
 	  ant_mover.c\
 	  solve.c\
+	  erase_all_connection.c\
 	  main.c
 OBJ = 
 SRCO = $(SRC:.c=.o)

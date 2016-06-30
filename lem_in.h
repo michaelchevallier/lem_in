@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 15:37:14 by mchevall          #+#    #+#             */
-/*   Updated: 2016/06/28 17:42:34 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/30 14:21:34 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,5 @@ void				solve(t_ants **ants, t_map **map, t_path **antpit);
 void				ant_mover(t_path **antpit, t_map **map, t_ants **ants);
 int					ant_sender(t_path **antpit, t_ants **ants, int i,
 		t_room **tmp);
+void				erase_all_connection(t_path **antpit, t_index **i);
 #endif

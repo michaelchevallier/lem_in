@@ -47,7 +47,7 @@ void	end_finder(t_path **antpit, t_map **map)
 int		ant_sender(t_path **antpit, t_ants **ants, int i, t_room **tmp)
 {
 	if (((*ants)->total_ants - ((*ants)->total_ants /
-		(*antpit)->paths_l[i])) >= (*antpit)->paths_l[i] ||
+		(*antpit)->paths_l[i])) >= (*antpit)->paths_l[i] - 1 ||
 		(i == 0 && (*tmp)->ants == NULL))
 	{
 		(*tmp)->ants = (*ants)->start;

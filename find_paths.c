@@ -6,7 +6,7 @@
 /*   By: mchevall <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 18:02:58 by mchevall          #+#    #+#             */
-/*   Updated: 2016/06/03 14:11:54 by mchevall         ###   ########.fr       */
+/*   Updated: 2016/06/30 14:33:55 by mchevall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ void	room_found(t_path **antpit, t_index **i, t_map **map, int depth)
 
 void	path_not_found(t_path **antpit, t_index **i, t_map **map, int depth)
 {
-	matrix_partial_recopier(antpit, i);
+	matrix_recopier(antpit);
 	(*antpit)->matrix[(*i)->i][(*i)->j] = 0;
-	(*antpit)->matrix[(*i)->j][(*i)->i] = 0;
-	matrix_duplicator(antpit);
+	erase_all_connection(antpit, i);
 	find_paths(map, antpit, i, depth);
 }
 
